@@ -1,7 +1,8 @@
 # Leverage information from Get-ObjectACL from the PowerView.ps1 script (from PowerSploit)
 # Run the command "Get-Objectacl -identity <object-name>" and store it in a variable called $ace
 # Then run this script with ". .\ObjectACL_Enum.ps1" to get a $results variable that maps all ObjectSIDs, its AccessRightsProperties to the Security_identifier
-#Example: do a get-object ACL on a Domain Group -> feed that into this script to find out objects have rights over that group.
+# Example: do a get-object ACL on a Domain Group -> feed that into this script to find out objects have rights over that group.
+# Interesting Rights that may be abused -> GenericAll, GenericWrite, WriteOwner, WriteDACL, AllExtendedRights, ForceChangePassword, Self
 
 
 $results = foreach($Val in $ace){

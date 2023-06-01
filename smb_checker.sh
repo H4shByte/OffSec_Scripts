@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Function to check for misconfigurations
+# Function to check for misconfigurations and list shares
 check_misconfigurations() {
     echo "Testing SMB misconfigurations for IP: $1"
 
@@ -41,6 +41,11 @@ check_misconfigurations() {
     echo "Command: smbclient -L //$1 -U \"test\"%\"password\""
 
     echo "------------------------"
+
+    # List shares
+    smbclient -L //$1 -N 2>/dev/null | grep -E "^[[:alnum:]]+" | while read -r share; do
+        echo "Share found: $share"
+    done
 }
 
 # Check if an IP address is provided as an argument
@@ -49,5 +54,5 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-# Call the function to check misconfigurations for the provided IP address
+# Call the function to check misconfigurations and list shares for the provided IP address
 check_misconfigurations "$1"

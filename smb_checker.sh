@@ -3,7 +3,7 @@
 # Function to check for misconfigurations
 check_misconfigurations() {
     echo "Testing SMB misconfigurations for IP: $1"
-    
+
     # Check if NULL session is allowed
     smbclient -L //$1 -N -U "%" 2>/dev/null >/dev/null
     if [ $? -eq 0 ]; then
@@ -11,6 +11,7 @@ check_misconfigurations() {
     else
         echo "NULL Session Allowed: No"
     fi
+    echo "Command: smbclient -L //$1 -N -U \"%\""
 
     # Check if guest account is enabled
     smbclient -L //$1 -N -U "guest" 2>/dev/null >/dev/null
@@ -19,6 +20,7 @@ check_misconfigurations() {
     else
         echo "Guest Account Enabled: No"
     fi
+    echo "Command: smbclient -L //$1 -N -U \"guest\""
 
     # Check if anonymous login is allowed
     smbclient -L //$1 -N 2>/dev/null >/dev/null
@@ -27,6 +29,7 @@ check_misconfigurations() {
     else
         echo "Anonymous Login Allowed: No"
     fi
+    echo "Command: smbclient -L //$1 -N"
 
     # Check if password policy is enforced
     smbclient -L //$1 -U "test"%"password" 2>/dev/null >/dev/null
@@ -35,6 +38,7 @@ check_misconfigurations() {
     else
         echo "Password Policy Enforced: Yes"
     fi
+    echo "Command: smbclient -L //$1 -U \"test\"%\"password\""
 
     echo "------------------------"
 }
